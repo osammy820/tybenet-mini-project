@@ -7,7 +7,7 @@ import InputError from '@/Components/InputError';
 import toast from 'react-hot-toast';
 
 const Edit = ({ companies, employee }) => {
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         first_name: employee?.first_name,
         last_name: employee?.last_name,
         email: employee?.email,
@@ -15,41 +15,26 @@ const Edit = ({ companies, employee }) => {
         photo: "",
         company_id: employee?.company_id,
         social_media_accounts: employee?.social_media_accounts,
+        _method: 'PUT'
     });
-
+    console.log(data);
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        for (const key in data) {
-            if (key === 'photo' && data[key]) {
-                formData.append(key, data[key]);
-            } else {
-                formData.append(key, JSON.stringify(data[key]));
-            }
-        }
-
-        put(route('employee.update', employee.id), {
+        post(route('employee.update', employee.id), {
             ...data,
             social_media_accounts: data.social_media_accounts,
         }, {
+            replace: true,
+            preserveState: true,
             preserveScroll: true,
             onSuccess: (page) => {
                 if (!page.props.errors || Object.keys(page.props.errors).length === 0) {
-                    toast.success("Employee created successfully");
-                    setData({
-                        first_name: "",
-                        last_name: "",
-                        email: "",
-                        phone: "",
-                        photo: null,
-                        company_id: "",
-                        social_media_accounts: [{ platform: '', handle: '' }],
-                    });
+                    toast.success("Employee updated successfully");
                 }
             },
             onError: () => {
-                toast.error("Employee creation failed. Please check the form for errors.");
+                toast.error("Employee update failed. Please check the form for errors.");
             },
         });
     };

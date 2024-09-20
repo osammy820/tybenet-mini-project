@@ -20,6 +20,11 @@ export default function Company({ companies }) {
 
     const columns = [
         {
+            name: 'logo',
+            cell: row => (<img src={row.logo} alt="Employee Photo" className="w-10 h-10 rounded-full" />),
+            sortable: true,
+        },
+        {
             name: 'Name',
             selector: row => row.name,
             sortable: true,

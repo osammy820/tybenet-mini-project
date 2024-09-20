@@ -63,15 +63,12 @@ class EmployeeController extends Controller
     public function update(StoreEmployeeRequest $request, $id)
     {
         try {
-            Log::debug($request->all());
             $employee = Employee::findOrFail($id);
 
             $data = $request->only(['first_name', 'last_name', 'company_id', 'email', 'phone', 'photo', 'social_media_accounts']);
 
-            $image_title = $data['first_name'] . "_" . $data['last_name'];
-
             if ($request->photo && $request->photo !== null) {
-                $ImageUrl = $this->updateImage($request, 'Employees', $employee, $image_title);
+                $ImageUrl = $this->updateImage($request, 'Employees', $employee, 'photo');
                 $data['photo'] = $ImageUrl;
             } else {
                 $data['photo'] = $employee->photo;
