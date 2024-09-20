@@ -1,4 +1,4 @@
-# Laravel Inertia React Project
+# Mini Project Setup Guide
 
 This project is a web application built with Laravel, Inertia, and React. It provides a modern, efficient way to create server-side rendered React applications with Laravel.
 
